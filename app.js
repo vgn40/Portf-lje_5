@@ -5,7 +5,7 @@ const mysql = require('mysql2')
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'Storpenisdreng1',
+    password: '???????',
     database: 'student_cafe_app'
 });
 
@@ -21,7 +21,7 @@ app.use(express.json());
 
 
 
-// Alle cafes - Virker
+// Alle cafes
 app.get('/api/cafes', (req, res) => {
     const getAllCafes = 'select * from cafes';
     connection.query(getAllCafes, (err, results) => {
@@ -32,7 +32,7 @@ app.get('/api/cafes', (req, res) => {
     });
 });
 
-// Specific cafe - Virker
+// Specific cafe
 app.get('/api/cafes/:id', (req, res) => {
     const cafeId = req.params.id;
     const getCafeId = 'select * from cafes where id = ?';
@@ -48,10 +48,10 @@ app.get('/api/cafes/:id', (req, res) => {
     });
 })
 
-// query for by - virker
+// query for by
 app.get('/api/cafes/city/:cityName', (req, res) => {
     const cityName = req.params.cityName;
-    const getCafesByCity = 'select * from cafes where city = ?';
+    const getCafesByCity = 'SELECT * FROM cafes WHERE city = ?';
 
     connection.query(getCafesByCity, [cityName],  (err, results) => {
         if (err) {
@@ -66,7 +66,7 @@ app.get('/api/cafes/city/:cityName', (req, res) => {
 })
 
 
-// Opret cafe - Virker
+// Opret cafe
 
 // {
 // "name": "Flipper",
@@ -76,8 +76,6 @@ app.get('/api/cafes/city/:cityName', (req, res) => {
 // "noise_level": 8.4,
 // "coffee_quality": 6.5
 // }
-
-// Virker
 app.post('/api/create-cafe', (req, res) => {
     const { name, city, address, wifi_available, noise_level, coffee_quality } = req.body;
 
@@ -92,9 +90,7 @@ app.post('/api/create-cafe', (req, res) => {
     });
 });
 
-
-
-// Alle brugere - Virker
+// Alle brugere
 app.get('/api/users', (req, res) => {
     connection.query('select * from users', (err, results) => {
         if (err) {
@@ -104,7 +100,7 @@ app.get('/api/users', (req, res) => {
     });
 });
 
-// Specific bruger - Virker
+// Specific bruger
 app.get('/api/user/:userid', (req, res) => {
     const userId = req.params.userid;
     const getUserId = 'select * from users where userid = ?';
@@ -114,13 +110,13 @@ app.get('/api/user/:userid', (req, res) => {
         }
 
         if (results.length === 0){
-            return res.status(404).json({message: 'User not found'})
+            return res.status(404).json({message: 'user not found'})
         }
         res.json(results[0]);
     });
 });
 
-// Opret bruger - VIRKER
+// Opret bruger
 app.post('/api/user/create', (req, res) => {
     const { name, email, city} = req.body;
         if (!name || !email) {
@@ -143,13 +139,6 @@ app.post('/api/user/create', (req, res) => {
 
 });
 
-
-
-
-// alt førhen virker som det skal - bortset fra at userid ikke bennytter slettede entiteter og dermed fortsætter optælning
-
-
-
 app.post('/api/user/:userId/favorites', (req, res) => {
     const userId = req.params.userId;
     const cafeId = req.body.cafeId;
@@ -159,11 +148,11 @@ app.post('/api/user/:userId/favorites', (req, res) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        res.status(201).json({ message: 'Restaurant added to favorites' });
+        res.status(201).json({ message: 'restaurant added to favorites!' });
     });
 });
 
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`running on port ${PORT}`);
 });
